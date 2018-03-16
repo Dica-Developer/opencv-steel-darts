@@ -8,6 +8,8 @@ current_path = path.abspath(path.dirname(__file__))
 img_path = path.abspath(path.join(current_path, '../test_images'))
 img1_path = path.abspath(path.join(img_path, 'cam1.jpg'))
 img2_path = path.abspath(path.join(img_path, 'cam2.jpg'))
+img1_with_dart_path = path.abspath(path.join(img_path, 'cam1_with_darts.jpg'))
+img2_with_dart_path = path.abspath(path.join(img_path, 'cam2_with_darts.jpg'))
 
 
 def loadReferenceImages():
@@ -20,6 +22,20 @@ def loadReferenceImages():
 
     img1 = cv2.imread(img1_path)
     img2 = cv2.imread(img2_path)
+
+    return img1, img2
+
+
+def loadReferenceImagesWithDarts():
+    img1_exists = path.exists(img1_with_dart_path)
+    img2_exists = path.exists(img2_with_dart_path)
+
+    if not img1_exists or not img2_exists:
+        print('Some reference images seems not to exist.')
+        return None, None
+
+    img1 = cv2.imread(img1_with_dart_path)
+    img2 = cv2.imread(img2_with_dart_path)
 
     return img1, img2
 
