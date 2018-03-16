@@ -2,6 +2,7 @@ import math
 import os
 import pickle
 import sys
+import time
 
 import cv2
 import numpy as np
@@ -51,6 +52,7 @@ def _get_live_feed():
     cam_l = VideoStream(src=0).start()
     cam_r = VideoStream(src=1).start()
 
+    time.sleep(5)
     try:
         _, img_l = cam_l.read()
         _, img_r = cam_r.read()
