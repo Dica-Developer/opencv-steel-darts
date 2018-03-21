@@ -1,8 +1,8 @@
 import cv2
 import numpy as np
 
-from Calibration import getCalibrationData
-from utils.VideoCapture import VideoStream
+from darts_ui.darts_recognition.Calibration import getCalibrationData
+from darts_ui.darts_recognition.utils.VideoCapture import VideoStream
 
 cal_data_l = None
 cal_data_r = None
@@ -52,6 +52,11 @@ def kickoff():
     cal_data_l, cal_data_r = getCalibrationData()
 
     show_corrected_live_stream()
+
+
+# This is only to see if a button can be made to start the darts recogntion
+def return_status():
+    return True
 
 if __name__ == '__main__':
     kickoff()

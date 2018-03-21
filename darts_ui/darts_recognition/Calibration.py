@@ -2,15 +2,14 @@ import math
 import os
 import pickle
 import sys
-import time
 
 import cv2
 import numpy as np
 
-from Classes import CalibrationData, EllipseDef
-from Draw import Draw
-from utils.ReferenceImages import loadReferenceImages
-from utils.VideoCapture import VideoStream
+from darts_ui.darts_recognition.Classes import CalibrationData, EllipseDef
+from darts_ui.darts_recognition.Draw import Draw
+from darts_ui.darts_recognition.utils.ReferenceImages import loadReferenceImages
+from darts_ui.darts_recognition.utils.VideoCapture import VideoStream
 
 cal_l_path = './calibration_data/cal_l.pkl'
 cal_r_path = './calibration_data/cal_r.pkl'
@@ -52,7 +51,6 @@ def _get_live_feed():
     cam_l = VideoStream(src=0).start()
     cam_r = VideoStream(src=1).start()
 
-    time.sleep(5)
     try:
         _, img_l = cam_l.read()
         _, img_r = cam_r.read()
