@@ -132,8 +132,8 @@ def _findBoundary(mask):
     return contour, ellipse
 
 
-def _getMainZones(ellipse):
-    black = np.ones(img2.shape, np.uint8)
+def _getMainZones(shape, ellipse):
+    black = np.ones(shape, np.uint8)
     score_zone_ellipse = cv2.ellipse(black, ellipse, (255, 255, 255),
                                      cv2.FILLED,
                                      cv2.LINE_AA)  # mask of boards actual score zone
@@ -197,7 +197,7 @@ def kickoff(img1, im2):
     green_red_mask = cv2.bitwise_or(red_mask, green_mask)  # combine masks
     # find outer ellipse of board w/o numbers
     _, ellipse = _findBoundary(green_red_mask)
-    score_zone, no_score_zone = _getMainZones(ellipse)
+    score_zone, no_score_zone = _getMainZones(blur.shape, ellipse)
 
     single, multi_2, multi_3, single_bull, double_bull = _finishZones(
         score_zone, green_red_mask)
@@ -235,7 +235,7 @@ class Board:
         green_mask, red_mask = _getGreeAndRedMask(green_red)
         green_red_mask = cv2.bitwise_or(red_mask, green_mask)
         _, ellipse = _findBoundary(green_red_mask)
-        score_zone, no_score_zone = _getMainZones(ellipse)
+        score_zone, no_score_zone = _getMainZones(blur.shape, ellipse)
         single, multi_2, multi_3, single_bull, double_bull = _finishZones(
             score_zone, green_red_mask)
 

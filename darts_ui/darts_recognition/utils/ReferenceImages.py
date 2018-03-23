@@ -38,6 +38,23 @@ def takeReferenceImages():
     cam2.stop()
 
 
+class DummyCam:
+    def __init__(self, src=0):
+        self.src = src
+        self.img1, self.img2 = loadReferenceImages()
+
+    def start(self):
+        pass
+
+    def stop(self):
+        pass
+
+    def read(self):
+        if self.src == 0:
+            return True, self.img1
+
+        return True, self.img2
+
 if __name__ == '__main__':
     global cam1
     global cam2

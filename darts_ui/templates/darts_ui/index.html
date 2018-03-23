@@ -36,6 +36,7 @@
             socket.onmessage = function(e) {
                 var data = JSON.parse(e.data);
                 var message = data['message'];
+
                 console.log(message);
             };
         
@@ -46,7 +47,7 @@
             var btn = document.getElementById('btn');
             btn.addEventListener('click', function (event) {
                 console.log(event);
-                socket.send(JSON.stringify({ 'message': { 'toggle': true } }))
+                socket.send(JSON.stringify({ 'message': 'start_stop' }))
             })
         </script>
     </body>
