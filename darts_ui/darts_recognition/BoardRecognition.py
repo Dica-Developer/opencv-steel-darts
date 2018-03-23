@@ -228,7 +228,7 @@ class Board:
         self._getHitZones()
 
     def _getHitZones(self):
-        img = self.cam.read()
+        _, img = self.cam.read()
         blur = cv2.GaussianBlur(img, (5, 5), 0)
         red, green = _splitImage(blur)
         green_red = cv2.bitwise_or(red, green)
