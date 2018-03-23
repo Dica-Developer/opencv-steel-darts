@@ -1,6 +1,10 @@
 from datetime import datetime
+
 from django.db import models
-from darts_ui.darts_recognition.Start import kickoff, return_status
+from django.dispatch import receiver
+
+from darts_ui.darts_recognition.Darts import Darts, state
+
 # Create your models here.
 
 
@@ -11,7 +15,6 @@ class DartsRecognitionStatus(models.Model):
     def __str__(self):
         return "{}, {}".format(self.is_running, self.since)
 
-
     def current_status(self):
         return self.is_running
 
@@ -20,4 +23,5 @@ class DartsRecognitionStatus(models.Model):
 
     # TODO:This always returns true (should be replaced with the kickoff function)
     def start_recognition(self):
-        return return_status()
+        self.darts = Darts()
+        self.darts.start()

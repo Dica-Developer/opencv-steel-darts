@@ -1,28 +1,36 @@
 import cv2
 import numpy as numpy
+import django.dispatch
+from django.dispatch import receiver
 
-from darts_ui.darts_recognition.utils.ReferenceImages import loadReferenceImages, loadReferenceImagesWithDarts
+from darts_ui.darts_recognition.utils.VideoCapture import VideoStream
+from darts_ui.darts_recognition.BoardRecognition import Board
 
 
-def _findDarts(img1, img2):
-    img1 = cv2.cvtColor(img1, cv2.COLOR_RGB2GRAY)
-    img2 = cv2.cvtColor(img2, cv2.COLOR_RGB2GRAY)
-    im_diff = cv2.absdiff(img1, img2)
-    #im_thresh = cv2.threshold(im_diff, 80, 255, cv2.THRESH_BINARY)
-    #im_erode = cv2.erode(im_thresh, cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3)))
+state = django.dispatch.Signal(providing_args=["status"])
 
-    cv2.imshow('Diff', im_diff)
-    #cv2.imshow('Thresh', im_thresh)
-    #cv2.imshow('Erode', im_erode)
 
-    while (1):
-        kill = cv2.waitKey(1) & 0xFF
-        if kill == 13 or kill == 27:
-            cv2.destroyAllWindows()
-            break
+class Darts:
 
-if __name__ == '__main__':
-    img1, img2 = loadReferenceImages()
-    img1_darts, img2_darts = loadReferenceImagesWithDarts()
+    def start(self):
+        self.sendStatus("initializing")
+        self.cam1 = VideoStream(0)
+        self.cam2 = VideoStream(1)
+        try:
+            self.cam1.start()
+            self.cam2.start()
+        except:
+            self.sendStatus("error")
 
-    _findDarts(img1, img1_darts)
+        self.sendStatus("done")
+
+    def stop(self):
+        self.cam1.stop()
+        self.cam2.stop()
+
+    def initBoards(self):
+        self.board1 = Board(self.cam1)
+        self.board2 = Board(self.cam2)
+
+    def sendStatus(self, status):
+        state.send(sender=self.__class__, status=status)

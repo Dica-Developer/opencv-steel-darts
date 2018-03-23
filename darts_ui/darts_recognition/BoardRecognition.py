@@ -3,7 +3,7 @@ from math import atan2
 import cv2
 import numpy as np
 
-from utils.ReferenceImages import loadReferenceImages
+from darts_ui.darts_recognition.utils.ReferenceImages import loadReferenceImages
 
 GREEN = 60
 SENSITIVITY = 20
@@ -218,6 +218,33 @@ def kickoff(img1, im2):
         if kill == 13 or kill == 27:
             cv2.destroyAllWindows()
             break
+
+
+class Board:
+    multiplier = {}
+
+    def __init__(self, cam):
+        self.cam = cam
+        self._getHitZones()
+
+    def _getHitZones(self):
+        img = self.cam.read()
+        blur = cv2.GaussianBlur(img, (5, 5), 0)
+        red, green = _splitImage(blur)
+        green_red = cv2.bitwise_or(red, green)
+        green_mask, red_mask = _getGreeAndRedMask(green_red)
+        green_red_mask = cv2.bitwise_or(red_mask, green_mask)
+        _, ellipse = _findBoundary(green_red_mask)
+        score_zone, no_score_zone = _getMainZones(ellipse)
+        single, multi_2, multi_3, single_bull, double_bull = _finishZones(
+            score_zone, green_red_mask)
+
+        self.multiplier["Single"] = single
+        self.multiplier["Double"] = multi_2
+        self.multiplier["Treble"] = multi_3
+        self.multiplier["SingleBull"] = single_bull
+        self.multiplier["DoubleBull"] = double_bull
+        self.multiplier["NoScore"] = no_score_zone
 
 
 if __name__ == '__main__':
