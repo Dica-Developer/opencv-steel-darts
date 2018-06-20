@@ -21,10 +21,15 @@ def index(request):
                               'darts_ui/index.html',
                               {"status": new_status.is_running, "since": new_status.since}
                               )
-        except:
+        except AttributeError:
             pass
+            # new_status = DartsRecognitionStatus(is_running=True, since=datetime.now())
+            # return render(request, 'darts_ui/index.html', {"status": new_status.is_running, "since": new_status.since})
 
-    if status.current_status():
-        return render(request, 'darts_ui/index.html', {"status": True, "since": status.since})
-    else:
-        return render(request, 'darts_ui/index.html', {"status": False, "since": status.since})
+    try:
+        if status.current_status():
+            return render(request, 'darts_ui/index.html', {"status": True, "since": status.since})
+        else:
+            return render(request, 'darts_ui/index.html', {"status": False, "since": status.since})
+    except AttributeError:
+        return render(request, 'darts_ui/index.html', {"status": False, "since": "I am Error."})

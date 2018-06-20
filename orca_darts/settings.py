@@ -77,7 +77,7 @@ WSGI_APPLICATION = 'orca_darts.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'darts_cam',
+        'NAME': 'darts_cam_new',
         'USER': 'darts_admin',
         'PASSWORD': 'R04X7qpA1dAoZ0Q',
         'HOST': 'localhost',
