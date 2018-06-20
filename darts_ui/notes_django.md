@@ -48,6 +48,6 @@ $ python manage.py runserver
 
 | type  | value              |
 |-------|--------------------|
-| name  | pgetal             |
-| email | w.benica@gmail.com |
-| pass  | eU99AJETzqIcQcp    |
+| name  | name             |
+| email | email|
+| pass  | password    |
