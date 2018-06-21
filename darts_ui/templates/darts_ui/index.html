@@ -33,7 +33,7 @@
         {# TODO: Add button to continue games #}
         <td>
             <form action="#" method="get">
-                {% csrf_token %}
+{#                {% csrf_token %}#}
                 <input type="submit" class="btn" value="Continue">
             </form>
         </td>
@@ -50,7 +50,7 @@
 
 <br>
 {# TODO: Auto compelte works with new_game.html, but fails in the app. Current version works, but is shown as an error? #}
-<form action="new_game" method="get">
-    {%  csrf_token %}
+<form action="game/new_game" method="get">
+{#    {%  csrf_token %}#}
     <input type="submit" class="btn" value="New Game">
 </form>
