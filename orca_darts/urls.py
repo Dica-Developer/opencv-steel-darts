@@ -18,7 +18,5 @@ from django.urls import include, path
 
 urlpatterns = [
     path('', include('darts_ui.urls')),
-    # path('new_game', include('darts_ui.urls')),
-    # path('darts_ui/', include('darts_ui.urls')),
     path('admin/', admin.site.urls),
 ]
