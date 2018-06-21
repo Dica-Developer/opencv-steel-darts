@@ -30,6 +30,9 @@ class Player(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        ordering = ('name',)
+
 
 class GameType(models.Model):
     CRICKET = 'CR'
@@ -68,10 +71,18 @@ class Throw(models.Model):
 class Game(models.Model):
     active = models.BooleanField(help_text="Is the game currently active.")
     game_type = models.ForeignKey(GameType, on_delete=models.SET_NULL, null=True, help_text="Type of this game")
-    players = models.ManyToManyField(Player, help_text="Players for this game")
-    throws = models.ForeignKey(Throw, on_delete=models.SET_NULL, null=True, help_text="Throws for this game")
+    players = models.ManyToManyField(Player,
+                                     help_text="Players for this game")
+    throws = models.ForeignKey(Throw,
+                               on_delete=models.SET_NULL,
+                               null=True,
+                               blank=True,
+                               help_text="Throws for this game")
     start_time = models.DateTimeField(null=True, help_text="Time the game started")
     end_time = models.DateTimeField(null=True, blank=True, help_text="Time the game ended.")
 
     def __str__(self):
         return 'GAME {}: {}'.format(self.id, self.game_type)
+
+    class Meta:
+        ordering = ('id',)
