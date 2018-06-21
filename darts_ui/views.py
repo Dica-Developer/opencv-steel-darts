@@ -35,7 +35,13 @@ def index(request):
 
 
 def game(request):
-    return render(request, 'darts_ui/game.html', {'message': 'Not yet implemented\n\nGame list goes here'})
+    active = [individ_game.__str__() for individ_game in Game.objects.all() if individ_game.active]
+    inactive = [individ_game.__str__() for individ_game in Game.objects.all() if not individ_game.active]
+    return render(request,
+                  'darts_ui/game.html',
+                  {'message': 'Not yet implemented - Game list goes here',
+                   'active_games': str(active),
+                   'inactive_games':str(inactive)})
 
 
 @csrf_exempt
@@ -49,4 +55,12 @@ def game_id(request, game_id):
     except Game.DoesNotExist:
         raise Http404('The requested game ID - {} - does not exist.'.format(game_id))
     static_message = 'You are looking at the info to game: {}'
-    return render(request, 'darts_ui/game_info.html', {'message': static_message.format(requested_game.__str__())})
+    sample = [requested_game.__str__(),
+              requested_game.id,
+              requested_game.active,
+              requested_game.start_time,
+              requested_game.end_time]
+    return render(request,
+                  'darts_ui/game_info.html',
+                  {'message': static_message.format(requested_game.__str__()), 'sample':str(sample)}
+                  )
