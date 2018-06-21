@@ -20,25 +20,37 @@
 </form>
 
 {# TODO: Add currently running games #}
-<table>
+<table border="1">
     <thead>Currently Running Games:</thead>
     <tr>
         <td>Game ID</td>
         <td>Started on:</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>002</td>
+        <td>June 21, 2018, 4:28 a.m.</td>
+        {# TODO: Add button to continue games #}
+        <td>
+            <form action="#" method="get">
+                {% csrf_token %}
+                <input type="submit" class="btn" value="Continue">
+            </form>
+        </td>
     </tr>
     <tr>
         <td>None - this is a place holder</td>
         <td>None - this is a place holder</td>
+        <td></td>
     </tr>
 </table>
-
 
 {# TODO: Add button to continue games #}
 
 
-{# TODO: Add button to start a new game #}
 <br>
-<form action="new_game.html" method="get">
+{# TODO: Auto compelte works with new_game.html, but fails in the app. Current version works, but is shown as an error? #}
+<form action="new_game" method="get">
     {%  csrf_token %}
     <input type="submit" class="btn" value="New Game">
 </form>
