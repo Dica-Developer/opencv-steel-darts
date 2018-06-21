@@ -1,15 +1,15 @@
 from django.shortcuts import get_object_or_404, render
-from django.http import HttpResponse, HttpResponseRedirect, request
+from django.http import HttpResponse, HttpResponseRedirect, request, Http404
 from django.urls import reverse
 from django.views import generic
 from django.views.decorators.csrf import csrf_protect, csrf_exempt
 
-from darts_ui.models import DartsRecognitionStatus
+from darts_ui.models import DartsRecognitionStatus, Game
 from darts_ui.darts_recognition.Start import return_status
 from datetime import datetime
 # Create your views here.
 
-@csrf_exempt
+
 def index(request):
     # Try to get the last saved object for the dart recognition (if available), otherwise create one.
     status = DartsRecognitionStatus.objects.last()
@@ -34,6 +34,19 @@ def index(request):
         return render(request, 'darts_ui/index.html', {"status": False, "since": status.since})
 
 
+def game(request):
+    return render(request, 'darts_ui/game.html', {'message': 'Not yet implemented\n\nGame list goes here'})
+
+
 @csrf_exempt
 def new_game(request):
     return render(request, 'darts_ui/new_game.html', {'message': 'Default'})
+
+
+def game_id(request, game_id):
+    try:
+        requested_game = Game.objects.get(pk=game_id)
+    except Game.DoesNotExist:
+        raise Http404('The requested game ID - {} - does not exist.'.format(game_id))
+    static_message = 'You are looking at the info to game: {}'
+    return render(request, 'darts_ui/game_info.html', {'message': static_message.format(requested_game.__str__())})
