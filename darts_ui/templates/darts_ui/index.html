@@ -12,14 +12,33 @@
     </tr>
 </table>
 
-
 <br>
-<br>
-
-{#TODO: Add button to start the darts cam#}
-
 
 <form action="#" method="post">
 {%  csrf_token %}
     <input type="submit" class="btn" value="{% if status %}Stop{% else %}Start{% endif %}" name="{% if status %}stop{% else %}start{% endif %}">
+</form>
+
+{# TODO: Add currently running games #}
+<table>
+    <thead>Currently Running Games:</thead>
+    <tr>
+        <td>Game ID</td>
+        <td>Started on:</td>
+    </tr>
+    <tr>
+        <td>None - this is a place holder</td>
+        <td>None - this is a place holder</td>
+    </tr>
+</table>
+
+
+{# TODO: Add button to continue games #}
+
+
+{# TODO: Add button to start a new game #}
+<br>
+<form action="new_game.html" method="get">
+    {%  csrf_token %}
+    <input type="submit" class="btn" value="New Game">
 </form>
