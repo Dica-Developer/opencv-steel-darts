@@ -50,7 +50,7 @@
 
 <br>
 {# TODO: Auto compelte works with new_game.html, but fails in the app. Current version works, but is shown as an error? #}
-<form action="game/new_game" method="get">
+<form action="{% url 'darts_ui:new_game' %}" method="get">
 {#    {%  csrf_token %}#}
     <input type="submit" class="btn" value="New Game">
 </form>
