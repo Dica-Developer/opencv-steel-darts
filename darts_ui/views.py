@@ -4,7 +4,7 @@ from django.urls import reverse
 from django.views import generic
 from django.views.decorators.csrf import csrf_protect, csrf_exempt
 
-from darts_ui.models import DartsRecognitionStatus, Game
+from darts_ui.models import DartsRecognitionStatus, Game, GameType, Player
 from darts_ui.darts_recognition.Start import return_status
 from datetime import datetime
 # Create your views here.
@@ -44,9 +44,13 @@ def game(request):
                    'inactive_games':str(inactive)})
 
 
-@csrf_exempt
+
 def new_game(request):
-    return render(request, 'darts_ui/new_game.html', {'message': 'Default'})
+    game_types = [(type.type, type.__str__()) for type in GameType.objects.all()]
+    # game_types_db = [type.type for type in GameType.objects.all()]
+    players = [(player.id, player.name) for player in Player.objects.all()]
+    return render(request, 'darts_ui/new_game.html', {'game_types': game_types,
+                                                      'players': players})
 
 
 def game_id(request, game_id):
@@ -58,9 +62,11 @@ def game_id(request, game_id):
     sample = [requested_game.__str__(),
               requested_game.id,
               requested_game.active,
+              requested_game.players.__str__(),
               requested_game.start_time,
               requested_game.end_time]
     return render(request,
                   'darts_ui/game_info.html',
-                  {'message': static_message.format(requested_game.__str__()), 'sample':str(sample)}
+                  {'message': static_message.format(requested_game.__str__()),
+                   'sample':str(sample)}
                   )
