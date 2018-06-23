@@ -4,9 +4,73 @@
     <meta charset="UTF-8">
     <title>New Game</title>
 </head>
-<body>
-<p>Let's start a new game!</p>
-
-<p>{{ message }} </p>
-</body>
+    <body>
+        <h1>Let's start a new game!</h1>
+        <form action="{% url 'darts_ui:list_of_games' %}" method="post" id="start_new_game">
+            {% csrf_token %}
+            <h2>Game Type</h2>
+            <div>
+                <label for="select_type">Please choose the type of game:</label>
+            </div>
+            <div>
+                <select id="select_type" form="star_new_game" autofocus required>
+                    {% for type_two_letters, game_types in game_types %}
+                        <option value="{{  type_two_letters }}">{{ game_types }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <br>
+            <h2>Players</h2>
+            <div>
+                <label for="select_players">Please choose the players for this game:</label>
+            </div>
+            <div>
+                <select id="select_players" form="start_new_game" size="5" multiple required>
+                    {% for player_id, player_name in players %}
+                        <option value="{{ player_id }}">{{ player_name }}</option>
+                    {%  endfor %}
+                </select>
+            </div>
+{#            <input id="select_players" hidden>#}
+{#            <input id="select_type" hidden>#}
+            <input type="hidden" id="active" name="active" value="True">
+            <input type="hidden" id="start_time" name="start_time" value="{% now "DATETIME_FORMAT"%}">
+            <br>
+            <div>
+            <input type="reset">  <input type="submit" value="START NEW GAME">
+            </div>
+        </form>
+{##}
+{#        <p>{{ message }} </p>#}
+{##}
+{#        <h2>Game type</h2>#}
+{#            <p>Please choose the type of game:</p>#}
+{#            <div>#}
+{#                <label for="select_type">Please choose the type of game:</label>#}
+{#                <select id="select_type" form="start_new_game" autofocus required>#}
+{#                    {% for type in game_types %}#}
+{#                        <option value="{{ type }}">{{ type }}</option>#}
+{#                    {%  endfor %}#}
+{#                </select>#}
+{#            </div>#}
+{#        <br>#}
+{##}
+{#            <h2>Players</h2>#}
+{#            <label for="select_players">Please choose the players for this game:</label>#}
+{#            <div>#}
+{#                <select id="select_players" form="start_new_game" size="5" multiple required>#}
+{#                    {% for player in players %}#}
+{#                        <option value="{{ player }}">{{ player }}</option>#}
+{#                    {% endfor %}#}
+{#                </select>#}
+{#            </div>#}
+{#        <br>#}
+{#            <div>#}
+{#                <form action="#" method="post" id="start_new_game">#}
+{#                {%  csrf_token %}#}
+{#                    <input type="submit" class="btn" value="START GAME">#}
+{#                    <input type="submit" hidden value="select_type">#}
+{#                </form>#}
+{#            </div>#}
+    </body>
 </html>
